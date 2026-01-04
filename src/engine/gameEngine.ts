@@ -53,10 +53,10 @@ const createPlayerPieces = (player: Player, line: Line): Piece[] => {
   return pieces;
 };
 
-// 初期ゲーム状態を作成（ライン選択画面）
+// 初期ゲーム状態を作成（タイトル画面）
 export const createInitialState = (): GameState => {
   return {
-    phase: 'LINE_SELECT',
+    phase: 'TITLE',
     board: createEmptyBoard(),
     currentPlayer: 'A',
     playerA: {

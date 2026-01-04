@@ -16,6 +16,7 @@ import {
   isPieceProtected,
 } from './engine/gameEngine';
 import { prefetchAllPokemon } from './api/pokeApi';
+import { TitleScreen } from './components/TitleScreen';
 import { LineSelector } from './components/LineSelector';
 import { GameBoard } from './components/GameBoard';
 import { Reserve } from './components/Reserve';
@@ -261,6 +262,11 @@ function App() {
     resetSelection();
   }, [resetSelection]);
 
+  // タイトル画面からゲーム開始
+  const handleStartGame = useCallback(() => {
+    setGameState((prev) => ({ ...prev, phase: 'LINE_SELECT' }));
+  }, []);
+
   // ローディング画面
   if (isLoading) {
     return (
@@ -278,6 +284,16 @@ function App() {
         <p>{error}</p>
         <button onClick={() => window.location.reload()}>再読み込み</button>
       </div>
+    );
+  }
+
+  // タイトル画面
+  if (gameState.phase === 'TITLE') {
+    return (
+      <TitleScreen
+        pokemonCache={pokemonCache}
+        onStartGame={handleStartGame}
+      />
     );
   }
 

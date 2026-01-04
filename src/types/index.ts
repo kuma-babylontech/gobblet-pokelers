@@ -69,7 +69,7 @@ export interface AbilityAction {
 export type GameAction = PlaceAction | MoveAction | AbilityAction;
 
 // ゲームフェーズ
-export type GamePhase = 'LINE_SELECT' | 'PLAYING' | 'GAME_OVER';
+export type GamePhase = 'TITLE' | 'LINE_SELECT' | 'PLAYING' | 'GAME_OVER';
 
 // ゲーム状態
 export interface GameState {
