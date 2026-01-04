@@ -11,7 +11,7 @@ interface AbilityPanelProps {
 }
 
 const ABILITY_DESCRIPTIONS: Record<AbilityType, string> = {
-  LEECH_SEED: '相手の駒を次のターンまで固定する',
+  LEECH_SEED: '相手の駒を次のターン中移動不可にする',
   EMBER: '任意のトップ駒を手札に戻す',
   PROTECT: '自分の駒をバリアで守る',
 };

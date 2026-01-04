@@ -247,7 +247,7 @@ const useLeechSeed = (
   const newEffect: Effect = {
     type: 'SEED_LOCK',
     targetPieceId: topPiece.id,
-    expiresAt: 'OPP_TURN_START',
+    expiresAt: 'OPP_TURN_END',  // 相手ターン終了時まで固定（相手の1ターン中移動不可）
     appliedBy: state.currentPlayer,
   };
 

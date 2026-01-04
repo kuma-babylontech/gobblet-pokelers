@@ -89,7 +89,7 @@ export const RulesModal = ({ pokemonCache, onClose }: RulesModalProps) => {
                   <span className="ability-type">草タイプ</span>
                   <span className="ability-name">やどりぎのタネ</span>
                 </div>
-                <p>相手の駒を次のターンまで<strong>移動不可</strong>にする</p>
+                <p>相手の駒を<strong>次の相手ターン中、移動不可</strong>にする</p>
               </div>
               <div className="ability-card fire">
                 <div className="ability-header">
