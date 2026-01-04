@@ -39,7 +39,7 @@ export const TitleScreen = ({ pokemonCache, onStartGame }: TitleScreenProps) => 
         </div>
 
         <p className="title-tagline">
-          ゴブレット × ポケモン御三家
+          ゴブレットゴブラーズ × ポケモン
         </p>
 
         <div className="title-buttons">
