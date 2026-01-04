@@ -1,0 +1,32 @@
+:root {
+  --color-grass: #78C850;
+  --color-fire: #F08030;
+  --color-water: #6890F0;
+  --color-grass-light: #A8D8A8;
+  --color-fire-light: #F5B090;
+  --color-water-light: #98B8F0;
+  --board-bg: #f5e6d3;
+  --cell-bg: #e8d4b8;
+  --cell-border: #c9a86c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}

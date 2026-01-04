@@ -1,0 +1,159 @@
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+}
+
+.error button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: white;
+  color: #667eea;
+}
+
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.game-title {
+  color: white;
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.turn-indicator {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 25px;
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.turn-player {
+  font-weight: bold;
+}
+
+.turn-player.player-a {
+  color: #e74c3c;
+}
+
+.turn-player.player-b {
+  color: #3498db;
+}
+
+.game-layout {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 220px;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ability-hint {
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #666;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1000px) {
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .side-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .side-panel.left {
+    order: 1;
+  }
+
+  .board-container {
+    order: 2;
+  }
+
+  .side-panel.right {
+    order: 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .game-title {
+    font-size: 1.8rem;
+  }
+
+  .board-cell {
+    width: 90px;
+    height: 90px;
+  }
+}
