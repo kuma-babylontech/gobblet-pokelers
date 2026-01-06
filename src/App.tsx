@@ -22,18 +22,13 @@ import { prefetchAllPokemon } from './api/pokeApi';
 import { TitleScreen } from './components/TitleScreen';
 import { LineSelector } from './components/LineSelector';
 import { GameBoard } from './components/GameBoard';
-import { Reserve } from './components/Reserve';
-import { AbilityPanel } from './components/AbilityPanel';
+import { PlayerPanel } from './components/PlayerPanel';
 import { GameOver } from './components/GameOver';
 import './App.css';
 
 type SelectionMode = 'none' | 'piece' | 'ability';
 
-const LINE_NAMES: Record<Line, string> = {
-  GRASS: '草タイプ',
-  FIRE: '炎タイプ',
-  WATER: '水タイプ',
-};
+// LINE_NAMES is no longer needed as PlayerPanel doesn't show type names
 
 function App() {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
@@ -330,13 +325,6 @@ function App() {
     );
   }
 
-  const playerALineName = gameState.playerA.line
-    ? LINE_NAMES[gameState.playerA.line]
-    : '';
-  const playerBLineName = gameState.playerB.line
-    ? LINE_NAMES[gameState.playerB.line]
-    : '';
-
   return (
     <div className="game-container">
       <header className="game-header">
@@ -351,7 +339,7 @@ function App() {
 
       <div className="game-layout">
         <div className="side-panel left">
-          <Reserve
+          <PlayerPanel
             player="A"
             pieces={gameState.playerA.reserve}
             pokemonCache={pokemonCache}
@@ -362,19 +350,12 @@ function App() {
                 : null
             }
             onPieceClick={handleReservePieceClick}
+            line={gameState.playerA.line}
             abilityUsesRemaining={gameState.playerA.abilityUsesRemaining}
-            lineName={playerALineName}
+            isAbilityMode={selectionMode === 'ability'}
+            onAbilityClick={handleAbilityClick}
+            onCancelAbility={handleCancelAbility}
           />
-          {gameState.playerA.line && gameState.currentPlayer === 'A' && (
-            <AbilityPanel
-              line={gameState.playerA.line}
-              usesRemaining={gameState.playerA.abilityUsesRemaining}
-              isCurrentPlayer={true}
-              isAbilityMode={selectionMode === 'ability'}
-              onAbilityClick={handleAbilityClick}
-              onCancelAbility={handleCancelAbility}
-            />
-          )}
         </div>
 
         <div className="board-container">
@@ -390,12 +371,10 @@ function App() {
               能力の対象を選択してください
             </div>
           )}
-          {gameState.pieceActionDone && gameState.phase === 'PLAYING' && (
+          {gameState.pieceActionDone && gameState.phase === 'PLAYING' && canUseAbility(gameState) && (
             <div className="turn-actions">
               <p className="action-hint">
-                {canUseAbility(gameState)
-                  ? '能力を使用するか、ターンを終了してください'
-                  : 'ターンを終了してください'}
+                能力を使用するか、ターンを終了してください
               </p>
               <button className="end-turn-button" onClick={handleEndTurn}>
                 ターン終了
@@ -405,7 +384,7 @@ function App() {
         </div>
 
         <div className="side-panel right">
-          <Reserve
+          <PlayerPanel
             player="B"
             pieces={gameState.playerB.reserve}
             pokemonCache={pokemonCache}
@@ -416,19 +395,12 @@ function App() {
                 : null
             }
             onPieceClick={handleReservePieceClick}
+            line={gameState.playerB.line}
             abilityUsesRemaining={gameState.playerB.abilityUsesRemaining}
-            lineName={playerBLineName}
+            isAbilityMode={selectionMode === 'ability'}
+            onAbilityClick={handleAbilityClick}
+            onCancelAbility={handleCancelAbility}
           />
-          {gameState.playerB.line && gameState.currentPlayer === 'B' && (
-            <AbilityPanel
-              line={gameState.playerB.line}
-              usesRemaining={gameState.playerB.abilityUsesRemaining}
-              isCurrentPlayer={true}
-              isAbilityMode={selectionMode === 'ability'}
-              onAbilityClick={handleAbilityClick}
-              onCancelAbility={handleCancelAbility}
-            />
-          )}
         </div>
       </div>
 

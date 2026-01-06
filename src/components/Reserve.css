@@ -69,3 +69,76 @@
   font-style: italic;
   font-size: 0.9rem;
 }
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+  .reserve {
+    padding: 6px;
+    min-width: unset;
+    flex: 1;
+    border-radius: 8px;
+  }
+
+  .reserve.player-a {
+    border-left: 3px solid #e74c3c;
+  }
+
+  .reserve.player-b {
+    border-left: 3px solid #3498db;
+  }
+
+  .reserve.active {
+    transform: none;
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.6);
+  }
+
+  .reserve-header {
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+  }
+
+  .reserve-title {
+    font-size: 0.8rem;
+  }
+
+  .reserve-line {
+    font-size: 0.65rem;
+    padding: 1px 5px;
+  }
+
+  .reserve-info {
+    margin-bottom: 4px;
+  }
+
+  .ability-uses {
+    font-size: 0.65rem;
+    padding: 2px 5px;
+  }
+
+  .reserve-pieces {
+    gap: 3px;
+    min-height: 35px;
+  }
+
+  .no-pieces {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .reserve {
+    padding: 6px;
+  }
+
+  .reserve-title {
+    font-size: 0.75rem;
+  }
+
+  .reserve-pieces {
+    gap: 3px;
+    min-height: 35px;
+  }
+}

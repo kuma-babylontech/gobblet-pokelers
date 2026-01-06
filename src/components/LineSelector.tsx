@@ -66,9 +66,6 @@ export const LineSelector = ({
                     )
                 )}
               </div>
-              <div className="pokemon-names">
-                {pokemon.map((p) => p?.japaneseName).join(' → ')}
-              </div>
               <div className="line-ability">能力: {info.ability}</div>
             </button>
           );

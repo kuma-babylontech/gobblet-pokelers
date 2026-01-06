@@ -66,3 +66,59 @@
 .ability-button.cancel:hover {
   box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
 }
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+  .ability-panel {
+    padding: 8px;
+    border-radius: 8px;
+    flex: 1;
+  }
+
+  .ability-panel.line-grass,
+  .ability-panel.line-fire,
+  .ability-panel.line-water {
+    border-top-width: 3px;
+  }
+
+  .ability-name {
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+  }
+
+  .ability-description {
+    font-size: 0.65rem;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .ability-uses {
+    font-size: 0.65rem;
+    margin-bottom: 6px;
+  }
+
+  .ability-button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ability-panel {
+    padding: 8px;
+  }
+
+  .ability-name {
+    font-size: 0.8rem;
+  }
+
+  .ability-description {
+    font-size: 0.65rem;
+  }
+
+  .ability-button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}

@@ -491,15 +491,27 @@ export const executeAction = (state: GameState, action: GameAction): GameState =
 
   switch (action.type) {
     case 'PLACE':
-      // 駒配置: pieceActionDone が true になるだけ、ターン終了しない
+      // 駒配置
       newState = placePiece(state, action);
-      // 配置が成功した場合、ターン終了しない（能力使用や明示的終了を待つ）
+      if (newState !== state) {
+        // 配置成功: 能力使用済みなら自動ターン終了
+        const player = newState.currentPlayer === 'A' ? newState.playerA : newState.playerB;
+        if (player.abilityUsesRemaining <= 0) {
+          return endTurn(newState);
+        }
+      }
       return newState;
 
     case 'MOVE':
-      // 駒移動: pieceActionDone が true になるだけ、ターン終了しない
+      // 駒移動
       newState = movePiece(state, action);
-      // 移動が成功した場合、ターン終了しない（能力使用や明示的終了を待つ）
+      if (newState !== state) {
+        // 移動成功: 能力使用済みなら自動ターン終了
+        const player = newState.currentPlayer === 'A' ? newState.playerA : newState.playerB;
+        if (player.abilityUsesRemaining <= 0) {
+          return endTurn(newState);
+        }
+      }
       return newState;
 
     case 'ABILITY':

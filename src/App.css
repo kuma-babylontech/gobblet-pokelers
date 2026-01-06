@@ -159,11 +159,12 @@
   transform: translateY(0);
 }
 
-/* レスポンシブ対応 */
+/* タブレット対応 */
 @media (max-width: 1000px) {
   .game-layout {
     flex-direction: column;
     align-items: center;
+    gap: 15px;
   }
 
   .side-panel {
@@ -171,6 +172,7 @@
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
+    gap: 10px;
   }
 
   .side-panel.left {
@@ -186,13 +188,88 @@
   }
 }
 
+/* スマホ対応 */
 @media (max-width: 600px) {
-  .game-title {
-    font-size: 1.8rem;
+  .game-container {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
-  .board-cell {
-    width: 90px;
-    height: 90px;
+  .game-header {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .game-title {
+    font-size: 1.4rem;
+    margin: 0 0 6px 0;
+  }
+
+  .turn-indicator {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+  }
+
+  .game-layout {
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .side-panel {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 6px;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .side-panel.left {
+    order: 1;
+  }
+
+  .board-container {
+    order: 2;
+    flex-shrink: 0;
+  }
+
+  .side-panel.right {
+    order: 3;
+  }
+
+  .turn-actions {
+    margin-top: 8px;
+    gap: 6px;
+  }
+
+  .action-hint {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .end-turn-button {
+    padding: 10px 24px;
+    font-size: 0.95rem;
+  }
+
+  .ability-hint {
+    margin-top: 8px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* 小さいスマホ対応 */
+@media (max-width: 380px) {
+  .game-title {
+    font-size: 1rem;
+  }
+
+  .turn-indicator {
+    padding: 5px 10px;
+    font-size: 0.8rem;
   }
 }

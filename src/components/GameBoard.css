@@ -30,6 +30,40 @@
   transition: all 0.2s ease;
 }
 
+/* スマホ対応 */
+@media (max-width: 600px) {
+  .game-board {
+    padding: 6px;
+    border-radius: 8px;
+    margin: 0 auto;
+  }
+
+  .board-row {
+    gap: 4px;
+    margin-bottom: 4px;
+    justify-content: center;
+  }
+
+  .board-cell {
+    width: min(calc((100vw - 50px) / 3), calc((100dvh - 340px) / 3));
+    height: min(calc((100vw - 50px) / 3), calc((100dvh - 340px) / 3));
+    max-width: 85px;
+    max-height: 85px;
+    border-width: 2px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 380px) {
+  .board-cell {
+    width: calc((100vw - 50px) / 3);
+    height: calc((100vw - 50px) / 3);
+    max-width: 80px;
+    max-height: 80px;
+  }
+}
+
 .board-cell:hover {
   background: #dbc4a0;
 }

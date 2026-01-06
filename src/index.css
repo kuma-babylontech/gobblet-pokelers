@@ -30,3 +30,22 @@ body {
   max-width: 1200px;
   padding: 20px;
 }
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+  html, body {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  body {
+    align-items: stretch;
+    padding: 8px 0;
+  }
+
+  #root {
+    padding: 0;
+    height: 100%;
+  }
+}
