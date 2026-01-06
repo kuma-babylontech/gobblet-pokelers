@@ -11,7 +11,7 @@ interface AbilityPanelProps {
 }
 
 const ABILITY_DESCRIPTIONS: Record<AbilityType, string> = {
-  LEECH_SEED: '相手の駒を次のターン中移動不可にする',
+  LEECH_SEED: '相手の駒を次のターン中移動不可に',
   EMBER: '任意のトップ駒を手札に戻す',
   PROTECT: '自分の駒をバリアで守る',
 };
@@ -35,7 +35,7 @@ export const AbilityPanel = ({
       <h4 className="ability-name">{abilityName}</h4>
       <p className="ability-description">{description}</p>
       <div className="ability-uses">
-        残り: {usesRemaining}/2
+        残り: {usesRemaining}/1
       </div>
       {isAbilityMode ? (
         <button className="ability-button cancel" onClick={onCancelAbility}>

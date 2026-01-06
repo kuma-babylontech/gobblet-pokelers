@@ -42,7 +42,7 @@ export interface Cell {
 export type Board = Cell[][];
 
 // アクションの種類
-export type ActionType = 'PLACE' | 'MOVE' | 'ABILITY';
+export type ActionType = 'PLACE' | 'MOVE' | 'ABILITY' | 'END_TURN';
 
 // 配置アクション
 export interface PlaceAction {
@@ -66,10 +66,18 @@ export interface AbilityAction {
   targetPieceId?: string;
 }
 
-export type GameAction = PlaceAction | MoveAction | AbilityAction;
+// ターン終了アクション
+export interface EndTurnAction {
+  type: 'END_TURN';
+}
+
+export type GameAction = PlaceAction | MoveAction | AbilityAction | EndTurnAction;
 
 // ゲームフェーズ
 export type GamePhase = 'TITLE' | 'LINE_SELECT' | 'PLAYING' | 'GAME_OVER';
+
+// ターン内フェーズ（新仕様）
+export type TurnPhase = 'PIECE_ACTION' | 'ABILITY_ACTION' | 'TURN_END';
 
 // ゲーム状態
 export interface GameState {
@@ -81,6 +89,9 @@ export interface GameState {
   effects: Effect[];
   winner: Player | null;
   turnCount: number;
+  // ターン内フェーズ管理（新仕様）
+  turnPhase: TurnPhase;
+  pieceActionDone: boolean; // 駒の配置/移動を実行済みか
 }
 
 // プレイヤーの状態

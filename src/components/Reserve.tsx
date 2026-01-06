@@ -40,7 +40,7 @@ export const Reserve = ({
         <span className="reserve-line">{lineName}</span>
       </div>
       <div className="reserve-info">
-        <span className="ability-uses">能力: {abilityUsesRemaining}/2</span>
+        <span className="ability-uses">能力: {abilityUsesRemaining}/1</span>
       </div>
       <div className="reserve-pieces">
         {sortedPieces.map((piece) => (

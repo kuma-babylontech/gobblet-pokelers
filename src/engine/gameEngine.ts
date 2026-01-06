@@ -14,6 +14,7 @@ import {
   SIZE_ORDER,
   POKEMON_DATA,
   LINE_POKEMON_IDS,
+  TurnPhase,
 } from '../types';
 
 // ユニークIDの生成
@@ -62,16 +63,19 @@ export const createInitialState = (): GameState => {
     playerA: {
       line: null,
       reserve: [],
-      abilityUsesRemaining: 2,
+      abilityUsesRemaining: 1, // 1ゲームにつき1回のみ
     },
     playerB: {
       line: null,
       reserve: [],
-      abilityUsesRemaining: 2,
+      abilityUsesRemaining: 1, // 1ゲームにつき1回のみ
     },
     effects: [],
     winner: null,
     turnCount: 0,
+    // ターン内フェーズ管理
+    turnPhase: 'PIECE_ACTION',
+    pieceActionDone: false,
   };
 };
 
@@ -98,6 +102,8 @@ export const selectLine = (state: GameState, player: Player, line: Line): GameSt
     newState.phase = 'PLAYING';
     newState.currentPlayer = 'A';
     newState.turnCount = 1;
+    newState.turnPhase = 'PIECE_ACTION';
+    newState.pieceActionDone = false;
   }
 
   return newState;
@@ -172,6 +178,9 @@ export const canMovePiece = (
 
 // 駒を配置
 export const placePiece = (state: GameState, action: PlaceAction): GameState => {
+  // 既に駒アクションを実行済みの場合は不可
+  if (state.pieceActionDone) return state;
+
   const player = state.currentPlayer === 'A' ? state.playerA : state.playerB;
   const pieceIndex = player.reserve.findIndex((p) => p.id === action.pieceId);
 
@@ -201,11 +210,17 @@ export const placePiece = (state: GameState, action: PlaceAction): GameState => 
     board: newBoard,
     playerA: state.currentPlayer === 'A' ? newPlayerState : state.playerA,
     playerB: state.currentPlayer === 'B' ? newPlayerState : state.playerB,
+    // 駒アクション完了をマーク
+    turnPhase: 'ABILITY_ACTION' as TurnPhase,
+    pieceActionDone: true,
   };
 };
 
 // 駒を移動
 export const movePiece = (state: GameState, action: MoveAction): GameState => {
+  // 既に駒アクションを実行済みの場合は不可
+  if (state.pieceActionDone) return state;
+
   if (!canMovePiece(state, action.from.row, action.from.col, action.to.row, action.to.col)) {
     return state;
   }
@@ -228,6 +243,9 @@ export const movePiece = (state: GameState, action: MoveAction): GameState => {
     ...state,
     board: newBoard,
     effects: newEffects,
+    // 駒アクション完了をマーク
+    turnPhase: 'ABILITY_ACTION' as TurnPhase,
+    pieceActionDone: true,
   };
 };
 
@@ -435,6 +453,7 @@ export const endTurn = (state: GameState): GameState => {
       ...state,
       phase: 'GAME_OVER',
       winner,
+      turnPhase: 'TURN_END',
     };
   }
 
@@ -450,6 +469,9 @@ export const endTurn = (state: GameState): GameState => {
     currentPlayer: nextPlayer,
     effects: effectsAfterTurnEnd,
     turnCount: state.turnCount + 1,
+    // ターンフェーズをリセット
+    turnPhase: 'PIECE_ACTION',
+    pieceActionDone: false,
   };
 
   // 新プレイヤーのターン開始時の効果期限処理
@@ -469,24 +491,36 @@ export const executeAction = (state: GameState, action: GameAction): GameState =
 
   switch (action.type) {
     case 'PLACE':
+      // 駒配置: pieceActionDone が true になるだけ、ターン終了しない
       newState = placePiece(state, action);
-      break;
+      // 配置が成功した場合、ターン終了しない（能力使用や明示的終了を待つ）
+      return newState;
+
     case 'MOVE':
+      // 駒移動: pieceActionDone が true になるだけ、ターン終了しない
       newState = movePiece(state, action);
-      break;
+      // 移動が成功した場合、ターン終了しない（能力使用や明示的終了を待つ）
+      return newState;
+
     case 'ABILITY':
+      // 能力使用: 使用後にターン終了
       newState = useAbility(state, action);
-      break;
+      if (newState !== state) {
+        return endTurn(newState);
+      }
+      return state;
+
+    case 'END_TURN':
+      // 明示的なターン終了
+      // 駒アクションも能力も使わずにターン終了はできない
+      if (!state.pieceActionDone) {
+        return state;
+      }
+      return endTurn(state);
+
     default:
       return state;
   }
-
-  // アクションが有効だった場合、ターンを終了
-  if (newState !== state) {
-    return endTurn(newState);
-  }
-
-  return state;
 };
 
 // 盤面上の駒の位置を取得
@@ -533,4 +567,23 @@ export const getValidMoves = (
     }
   }
   return valid;
+};
+
+// 能力が使用可能かどうか
+export const canUseAbility = (state: GameState): boolean => {
+  if (state.phase !== 'PLAYING') return false;
+  const player = state.currentPlayer === 'A' ? state.playerA : state.playerB;
+  return player.abilityUsesRemaining > 0;
+};
+
+// ターンを終了できるかどうか（駒アクションを実行済みの場合のみ）
+export const canEndTurn = (state: GameState): boolean => {
+  if (state.phase !== 'PLAYING') return false;
+  return state.pieceActionDone;
+};
+
+// 駒アクション（配置/移動）が可能かどうか
+export const canDoPieceAction = (state: GameState): boolean => {
+  if (state.phase !== 'PLAYING') return false;
+  return !state.pieceActionDone;
 };

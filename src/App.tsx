@@ -14,6 +14,9 @@ import {
   getValidMoves,
   isPieceLocked,
   isPieceProtected,
+  canUseAbility,
+  canEndTurn,
+  canDoPieceAction,
 } from './engine/gameEngine';
 import { prefetchAllPokemon } from './api/pokeApi';
 import { TitleScreen } from './components/TitleScreen';
@@ -86,6 +89,9 @@ function App() {
   // 手札の駒を選択
   const handleReservePieceClick = useCallback(
     (pieceId: string) => {
+      // 駒アクションが完了済みの場合は選択不可
+      if (!canDoPieceAction(gameState)) return;
+
       const currentPlayer =
         gameState.currentPlayer === 'A' ? gameState.playerA : gameState.playerB;
       const piece = currentPlayer.reserve.find((p) => p.id === pieceId);
@@ -181,6 +187,9 @@ function App() {
 
       // 自分のトップ駒をクリックした場合（移動元として選択）
       if (topPiece && topPiece.owner === gameState.currentPlayer) {
+        // 駒アクションが完了済みの場合は選択不可
+        if (!canDoPieceAction(gameState)) return;
+
         if (isPieceLocked(gameState, topPiece.id)) {
           return;
         }
@@ -255,6 +264,16 @@ function App() {
   const handleCancelAbility = useCallback(() => {
     resetSelection();
   }, [resetSelection]);
+
+  // ターンを終了
+  const handleEndTurn = useCallback(() => {
+    if (!canEndTurn(gameState)) return;
+    const newState = executeAction(gameState, { type: 'END_TURN' });
+    if (newState !== gameState) {
+      setGameState(newState);
+      resetSelection();
+    }
+  }, [gameState, resetSelection]);
 
   // ゲームをリスタート
   const handleRestart = useCallback(() => {
@@ -369,6 +388,18 @@ function App() {
           {selectionMode === 'ability' && (
             <div className="ability-hint">
               能力の対象を選択してください
+            </div>
+          )}
+          {gameState.pieceActionDone && gameState.phase === 'PLAYING' && (
+            <div className="turn-actions">
+              <p className="action-hint">
+                {canUseAbility(gameState)
+                  ? '能力を使用するか、ターンを終了してください'
+                  : 'ターンを終了してください'}
+              </p>
+              <button className="end-turn-button" onClick={handleEndTurn}>
+                ターン終了
+              </button>
             </div>
           )}
         </div>

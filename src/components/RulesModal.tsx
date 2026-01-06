@@ -67,18 +67,22 @@ export const RulesModal = ({ pokemonCache, onClose }: RulesModalProps) => {
           </section>
 
           <section className="rules-section">
-            <h3>ターンでできること</h3>
-            <ul className="rules-list">
+            <h3>ターンの流れ</h3>
+            <ol className="rules-list">
               <li>
-                <strong>駒を置く</strong> - 手札から駒を盤面に置く
+                <strong>駒を置く/移動</strong> - 手札から置くか、盤面の駒を移動
               </li>
               <li>
-                <strong>駒を移動</strong> - 盤面の自分の駒を別のマスに移動
+                <strong>能力を使う（任意）</strong> - 駒アクション後に能力を発動可能
               </li>
               <li>
-                <strong>能力を使う</strong> - 特殊能力を発動（1ゲーム2回まで）
+                <strong>ターン終了</strong> - 次のプレイヤーへ
               </li>
-            </ul>
+            </ol>
+            <p className="rules-note">
+              <strong>能力は駒を置いた後に使用可能！</strong><br />
+              1ゲームにつき<strong>1回のみ</strong>使用できます。
+            </p>
           </section>
 
           <section className="rules-section">
